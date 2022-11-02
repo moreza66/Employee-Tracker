@@ -10,3 +10,9 @@ const connection = mysql.createConnection({
     password: "password",
     database: "employee_trackerDB"
   });
+
+  connection.connect(err => {
+    if (err) throw err;
+    console.log('WELCOME TO EMPLOYEE TRACKER ' + connection.threadId);
+    afterConnection();
+  });
