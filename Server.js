@@ -232,3 +232,17 @@ function addRole() {
         })
     })
 };
+
+function updateRole() {
+
+};
+
+
+function deleteEmployee() {
+
+};
+
+
+function exitApp() {
+    connection.end();
+};
