@@ -68,3 +68,32 @@ const connection = mysql.createConnection({
                 }
         })
 };
+
+function viewEmployees() {
+    var query = 'SELECT * FROM employee';
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+        console.log(res.length + ' employees found!');
+        console.table('All Employees:', res); 
+        options();
+    })
+};
+
+function viewDepartments() {
+    var query = 'SELECT * FROM department';
+    connection.query(query, function(err, res) {
+        if(err)throw err;
+        console.table('All Departments:', res);
+        options();
+    })
+};
+
+
+function viewRoles() {
+    var query = 'SELECT * FROM role';
+    connection.query(query, function(err, res){
+        if (err) throw err;
+        console.table('All Roles:', res);
+        options();
+    })
+};
