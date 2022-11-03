@@ -108,17 +108,17 @@ function addEmployee() {
                 {
                     name: 'first_name',
                     type: 'input', 
-                    message: "What is the employee's fist name? ",
+                    message: "Please enter the employee's fist name? ",
                 },
                 {
                     name: 'last_name',
                     type: 'input', 
-                    message: "What is the employee's last name? "
+                    message: "Please enter the employee's last name? "
                 },
                 {
                     name: 'manager_id',
                     type: 'input', 
-                    message: "What is the employee's manager's ID? "
+                    message: "Please enter the employee's manager's ID? "
                 },
                 {
                     name: 'role', 
@@ -130,7 +130,7 @@ function addEmployee() {
                     }
                     return roleArray;
                     },
-                    message: "What is this employee's role? "
+                    message: "Please enter this employee's role? "
                 }
                 ]).then(function (answer) {
                     let role_id;
@@ -150,7 +150,7 @@ function addEmployee() {
                     },
                     function (err) {
                         if (err) throw err;
-                        console.log('Your employee has been added!');
+                        console.log('Employee information has been updated!');
                         options();
                     })
                 })
