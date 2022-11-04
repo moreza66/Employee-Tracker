@@ -1,22 +1,25 @@
-require('dotenv').config();
-const mysql = require('mysql');
-const inquier = require('inquirer');
-const cTable = require('console.table');
+//======== Dependencies===================//
+const mysql = require('mysql2');
+const inquirer = require('inquirer');
+require('console.table');
+require('dotenv').config()
 
-const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
+
+const test = mysql.createConnection({
+    host: "127.0.0.1",
+    // port: 3306,
     user: "root",
-    password: "password",
+    password: "ehlambanoo",
     database: "employee_trackerDB"
   });
 
-  connection.connect(err => {
+  //========== Connection ID ==========================//
+  test.connect(function(err){
     if (err) throw err;
-    console.log('WELCOME TO EMPLOYEE TRACKER ' + connection.threadId);
-    afterConnection();
-  });
+    options();
+})
 
+//================== Initial Prompt =======================//
   function options() {
     inquirer
         .prompt({
@@ -70,10 +73,10 @@ const connection = mysql.createConnection({
 };
 
 
-
+//============= View All Employees ==========================//
 function viewEmployees() {
     let query = 'SELECT * FROM employee';
-    connection.query(query, function(err, res) {
+    test.query(query, function(err, res) {
         if (err) throw err;
         console.log(res.length + ' employees found!');
         console.table('All Employees:', res); 
@@ -81,27 +84,29 @@ function viewEmployees() {
     })
 };
 
+//============= View All Employees By Departments ==========================//
 function viewDepartments() {
     let query = 'SELECT * FROM department';
-    connection.query(query, function(err, res) {
+    test.query(query, function(err, res) {
         if(err)throw err;
         console.table('All Departments:', res);
         options();
     })
 };
 
-
+//============= View All Roles ==========================//
 function viewRoles() {
     let query = 'SELECT * FROM role';
-    connection.query(query, function(err, res){
+    test.query(query, function(err, res){
         if (err) throw err;
         console.table('All Roles:', res);
         options();
     })
 };
 
+//============= Add Employee ==========================//
 function addEmployee() {
-    connection.query('SELECT * FROM role', function (err, res) {
+    test.query('SELECT * FROM role', function (err, res) {
         if (err) throw err;
         inquirer
             .prompt([
@@ -140,7 +145,7 @@ function addEmployee() {
                             console.log(role_id)
                         }                  
                     }  
-                    connection.query(
+                    test.query(
                     'INSERT INTO employee SET ?',
                     {
                         first_name: answer.first_name,
@@ -157,6 +162,7 @@ function addEmployee() {
         })
 };
 
+//============= Add Department ==========================//
 function addDepartment() {
     inquirer
         .prompt([
@@ -166,13 +172,13 @@ function addDepartment() {
                 message: 'Please add the department here:'
             }
             ]).then(function (answer) {
-                connection.query(
+                test.query(
                     'INSERT INTO department SET ?',
                     {
                         name: answer.newDepartment
                     });
             let query = 'SELECT * FROM department';
-                connection.query(query, function(err, res) {
+                test.query(query, function(err, res) {
                 if(err)throw err;
                 console.log('Department information has been updated!');
                 console.table('All Departments:', res);
@@ -181,8 +187,9 @@ function addDepartment() {
             })
 };
 
+//============= Add Employee Role ==========================//
 function addRole() {
-    connection.query('SELECT * FROM department', function(err, res) {
+    test.query('SELECT * FROM department', function(err, res) {
         if (err) throw err;
     
         inquirer 
@@ -216,7 +223,7 @@ function addRole() {
                 }
             }
     
-            connection.query(
+            test.query(
                 'INSERT INTO role SET ?',
                 {
                     title: answer.new_role,
@@ -232,17 +239,17 @@ function addRole() {
         })
     })
 };
-
+//============= Update a role ==========================//
 function updateRole() {
 
 };
 
-
+//============= Delet an employee ==========================//
 function deleteEmployee() {
 
 };
 
-
+//============= EXIT ==========================//
 function exitApp() {
-    connection.end();
+    test.end();
 };
