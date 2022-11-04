@@ -189,7 +189,14 @@ function addDepartment() {
 
 //============= Add Employee Role ==========================//
 function addRole() {
-    test.query('SELECT * FROM department', function(err, res) {
+    test.query('SELECT * FROM department', function(err, data) {
+
+        
+
+            const departmentChoices = data.map(({id,name})=> ({
+                name : name, 
+                value : id
+            }))
         if (err) throw err;
     
         inquirer 
@@ -207,21 +214,13 @@ function addRole() {
             {
                 name: 'Department',
                 type: 'list',
-                choices: function() {
-                    let deptArry = [];
-                    for (let i = 0; i < res.length; i++) {
-                    deptArry.push(res[i].name);
-                    }
-                    return deptArry;
-                },
+                choices: departmentChoices
+          
             }
         ]).then(function (answer) {
-            let department_id;
-            for (let a = 0; a < res.length; a++) {
-                if (res[a].name == answer.Department) {
-                    department_id = res[a].id;
-                }
-            }
+            let department_id = answer.name
+          
+        
     
             test.query(
                 'INSERT INTO role SET ?',
